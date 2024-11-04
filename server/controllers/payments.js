@@ -10,6 +10,7 @@ const {
 const { paymentSuccessEmail } = require("../mail/templates/paymentSuccessEmail")
 const CourseProgress = require("../models/CourseProgress")
 
+
 // Capture the payment and initiate the Razorpay order
 exports.capturePayment = async (req, res) => {
   const { courses } = req.body
@@ -34,6 +35,8 @@ exports.capturePayment = async (req, res) => {
       }
 
       // Check if the user is already enrolled in the course
+
+      // converting userId string into ojectId
       const uid = new mongoose.Types.ObjectId(userId)
       if (course.studentsEnroled.includes(uid)) {
         return res
@@ -54,6 +57,8 @@ exports.capturePayment = async (req, res) => {
     currency: "INR",
     receipt: Math.random(Date.now()).toString(),
   }
+
+  //now we have options for the payment 
 
   try {
     // Initiate the payment using Razorpay
@@ -90,8 +95,11 @@ exports.verifyPayment = async (req, res) => {
     return res.status(200).json({ success: false, message: "Payment Failed" })
   }
 
+  // generates the expected signature using the razorpay_order_id and razorpay_payment_id with a secret key (RAZORPAY_SECRET).
   let body = razorpay_order_id + "|" + razorpay_payment_id
 
+
+  // webhook used to verify
   const expectedSignature = crypto
     .createHmac("sha256", process.env.RAZORPAY_SECRET)
     .update(body.toString())

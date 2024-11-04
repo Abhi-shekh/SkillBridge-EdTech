@@ -206,6 +206,7 @@ exports.sendotp = async (req, res) => {
     console.log("Result is Generate OTP Func")
     console.log("OTP", otp)
     console.log("Result", result)
+    
     while (result) {
       otp = otpGenerator.generate(6, {
         upperCaseAlphabets: false,
