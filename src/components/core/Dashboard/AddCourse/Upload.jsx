@@ -108,7 +108,7 @@ export default function Upload({
             </p>
             <ul className="mt-10 flex list-disc justify-between space-x-12 text-center  text-xs text-richblack-200">
               <li>Aspect ratio 16:9</li>
-              <li>Recommended size 1024x576</li>
+              <li>Recommended size 1024 x 576</li>
             </ul>
           </div>
         )}
